@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: 'API documentation'
+  version: 0.1.0
+paths:
+  /api/records/{id}:
+    get:
+      tags:
+        - Records
+      summary: Get record
+      parameters:
+        - in: path
+          name: id
+          description: record id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          $ref: "./openapi.yaml#/components/responses/RecordResponse"
+components:
+  responses:
+    RecordResponse:
+      $ref: ./components/responses/recordResponse.yaml
