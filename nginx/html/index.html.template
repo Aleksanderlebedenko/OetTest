@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Default page</title>
+    </head>
+<body>
+    <h1>
+        Test page
+    </h1>
+    <p>
+        Test
+    </p>
+    <h2>Index</h2>
+    <ul>
+        <li><a href="http://${NGINX_SYMFONY_SERVER_NAME}" target="_blank">Symfony</a></li>
+    </ul>
+</body>
+</html>
