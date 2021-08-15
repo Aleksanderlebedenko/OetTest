@@ -8,6 +8,7 @@ COPY templates/* /etc/nginx/templates/
 COPY html/index.html.template /tmp/nginx/
 
 ARG NGINX_SYMFONY_SERVER_NAME
+ARG OPENAPI_URI
 RUN envsubst < /tmp/nginx/index.html.template > /usr/share/nginx/html/index.html; \
     rm -fR /tmp/nginx
 

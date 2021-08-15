@@ -37,6 +37,7 @@ services:
             context: nginx
             args:
                 NGINX_SYMFONY_SERVER_NAME: ${NGINX_SYMFONY_SERVER_NAME}
+                OPENAPI_URI: ${OPENAPI_URI}
         ports:
             - "${NGINX_PORT}:80"
         depends_on:
@@ -46,6 +47,7 @@ services:
             - NGINX_ENVSUBST_TEMPLATE_DIR=/etc/nginx/templates
             - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.template
             - NGINX_SYMFONY_SERVER_NAME=${NGINX_SYMFONY_SERVER_NAME}
+            - OPENAPI_URI=${OPENAPI_URI}
         volumes:
             - ./logs/nginx:/var/log/nginx:cached
             - ./symfony:/var/www/symfony:cached
