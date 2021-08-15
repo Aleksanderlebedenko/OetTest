@@ -19,7 +19,34 @@ paths:
       responses:
         200:
           $ref: "./openapi.yaml#/components/responses/RecordResponse"
+        404:
+          $ref: "./openapi.yaml#/components/responses/NoFoundResponse"
+        500:
+          $ref: "./openapi.yaml#/components/responses/ServerErrorResponse"
+    delete:
+      tags:
+        - Records
+      summary: Delete record
+      parameters:
+        - in: path
+          name: id
+          description: record id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        204:
+          description: The resource was deleted successfully
+        404:
+          $ref: "./openapi.yaml#/components/responses/NoFoundResponse"
+        500:
+          $ref: "./openapi.yaml#/components/responses/ServerErrorResponse"
 components:
   responses:
     RecordResponse:
       $ref: ./components/responses/recordResponse.yaml
+    NoFoundResponse:
+      $ref: ./components/responses/errorResponse.yaml
+    ServerErrorResponse:
+      $ref: ./components/responses/errorResponse.yaml

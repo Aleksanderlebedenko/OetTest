@@ -4,6 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Record;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +20,19 @@ class RecordRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Record::class);
+    }
+
+    /**
+     * @param Record $record
+     * @throws ORMException
+     * @throws ORMInvalidArgumentException
+     * @throws OptimisticLockException
+     */
+    public function remove(Record $record): void
+    {
+        $em = $this->getEntityManager();
+        $em->remove($record);
+        $em->flush();
     }
 
     // /**

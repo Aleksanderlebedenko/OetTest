@@ -19,11 +19,11 @@ class GetRecordService
     }
 
     /**
-     * @param int $id
+     * @param string $id
      * @return Record
      * @throws NoDataFoundException
      */
-    public function get(int $id): Record
+    public function get(string $id): Record
     {
         $record = $this->recordRepository->find($id);
         if (null === $record) {
