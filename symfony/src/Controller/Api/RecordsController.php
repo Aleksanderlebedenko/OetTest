@@ -6,25 +6,32 @@ namespace App\Controller\Api;
 
 use App\Exception\NoDataFoundException;
 use App\Exception\RepositoryException;
+use App\Form\Type\RecordType;
+use App\Service\AddRecordService;
 use App\Service\GetRecordService;
 use App\Service\RemoveRecordService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Exception\LogicException;
+use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RecordsController extends AbstractController
+class RecordsController extends AbstractApiController
 {
     private GetRecordService $getRecordService;
     private RemoveRecordService $removeRecordService;
+    private AddRecordService $addRecordService;
 
     public function __construct(
         GetRecordService $getRecordService,
-        RemoveRecordService $removeRecordService
+        RemoveRecordService $removeRecordService,
+        AddRecordService $addRecordService
     ) {
         $this->getRecordService = $getRecordService;
         $this->removeRecordService = $removeRecordService;
+        $this->addRecordService = $addRecordService;
     }
 
     /**
@@ -40,6 +47,29 @@ class RecordsController extends AbstractController
         } catch (NoDataFoundException $exception) {
             throw $this->createNotFoundException($exception->getMessage());
         }
+    }
+
+    /**
+     * @Route("/api/records", name="add record", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     * @throws RepositoryException
+     * @throws LogicException
+     * @throws RuntimeException
+     */
+    public function add(Request $request): Response
+    {
+        $form = $this->buildForm(RecordType::class);
+
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            return $this->respond($form, Response::HTTP_BAD_REQUEST);
+        }
+
+        return $this->json(
+            $this->addRecordService->add($form->getData())
+        );
     }
 
     /**

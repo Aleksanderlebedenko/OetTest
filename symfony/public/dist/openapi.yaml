@@ -3,6 +3,30 @@ info:
   title: 'API documentation'
   version: 0.1.0
 paths:
+  /api/records:
+    post:
+      tags:
+        - Records
+      summary: Add record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                  required: false
+        required: true
+      responses:
+        201:
+          $ref: "./openapi.yaml#/components/responses/RecordResponse"
+        404:
+          $ref: "./openapi.yaml#/components/responses/NoFoundResponse"
+        500:
+          $ref: "./openapi.yaml#/components/responses/ServerErrorResponse"
   /api/records/{id}:
     get:
       tags:
