@@ -12,6 +12,7 @@ use App\Service\GetRecordService;
 use App\Service\RemoveRecordService;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\Exception\RuntimeException;
+use Symfony\Component\HttpFoundation\Exception\SuspiciousOperationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,6 +61,39 @@ class RecordsController extends AbstractApiController
     public function add(Request $request): Response
     {
         $form = $this->buildForm(RecordType::class);
+
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            return $this->respond($form, Response::HTTP_BAD_REQUEST);
+        }
+
+        return $this->json(
+            $this->addRecordService->add($form->getData())
+        );
+    }
+
+    /**
+     * @Route("/api/records/{id}", name="update record", methods={"PATCH"}, requirements={"id"="\d+"})
+     * @param string $id
+     * @param Request $request
+     * @return JsonResponse
+     * @throws LogicException
+     * @throws NotFoundHttpException
+     * @throws RepositoryException
+     * @throws RuntimeException
+     * @throws SuspiciousOperationException
+     */
+    public function update(string $id, Request $request): Response
+    {
+        try {
+            $record = $this->getRecordService->get($id);
+        } catch (NoDataFoundException $exception) {
+            throw $this->createNotFoundException($exception->getMessage());
+        }
+        $form = $this->buildForm(RecordType::class, $record, [
+            'method' => $request->getMethod(),
+        ]);
 
         $form->handleRequest($request);
 
