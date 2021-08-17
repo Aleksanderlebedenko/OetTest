@@ -12,7 +12,6 @@
     </p>
     <h2>Index</h2>
     <ul>
-        <li><a href="http://${NGINX_SYMFONY_SERVER_NAME}" target="_blank">Symfony</a></li>
         <li><a href="http://${NGINX_SYMFONY_SERVER_NAME}${OPENAPI_URI}" target="_blank">Documentation</a></li>
     </ul>
 </body>

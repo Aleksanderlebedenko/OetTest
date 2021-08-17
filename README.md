@@ -1,7 +1,20 @@
-docker-symfony
+Test
 ==============
 
-This is a complete stack for running Symfony 5 (latest version), PHP8 using docker-compose tool.
+In this test, I didn't do all that I planned because of the lack of time. I hope you understand this. But anyway, I've tried to pay attention to the most significant parts. In the code, you can see some typos, missing PHPdocs sometimes and I didn't always keep SOLID principles. But all these things I would be glad to consider with the person who will be able to check this test.
+The main parts that I didn't do (unfortunately) here:
+- caching
+- logging
+- I didn't support here any headers (except HTTP methods, of course).
+- tests
+- in controllers, I think it is a good idea to use DTOs directly instead of the Request object.
+-  I didn't provide here a possibility to add or update 'Artist' entity. Actually, I don't support 'Artist's in this API.
+- versioning API
+- I skipped 'PUT' and left supporting only 'PATCH'
+- I didn't polish the code and in real-life, if I reviewed this code I would block this :)
+
+If it won't be enough to assess me, please contact me aleksanderlebedenko@gmail.com. I'm always open to discuss and append missing parts.
+
 
 # Installation
 
@@ -17,7 +30,15 @@ Then, run:
 $ docker-compose up
 ```
 
-You are done, you can visit your Symfony application on the following URL: `http://symfony.localhost`
+Then got the php container and run migrations
+
+```bash
+$ docker exec -it php-fpm sh
+
+$ php bin/console doctrine:migrations:migrate
+```
+
+You are done, you can visit page with the API documentation page on the following URL: `http://localhost`
 
 _Note :_ you can rebuild all Docker images by running:
 
@@ -32,12 +53,3 @@ You can access Nginx and Symfony application logs in the following directories o
 
 * `logs/nginx`
 * `logs/symfony`
-
-# Use xdebug!
-
-Start by updating your docker-compose .env file with `PHP_XDEBUG_MODE=debug` (or any other configuration you need as seen in the [Xdebug documentation](https://xdebug.org/docs/all_settings#mode)).
-You will need to re-build the php container for this value to take effect.
-
-Configure your IDE to use port 5902 for XDebug.
-Docker versions below 18.03.1 don't support the Docker variable `host.docker.internal`.  
-In that case you'd have to swap out `host.docker.internal` with your machine IP address in php-fpm/xdebug.ini.
