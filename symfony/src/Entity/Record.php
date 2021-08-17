@@ -27,6 +27,11 @@ class Record
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Artist::class, inversedBy="records")
+     */
+    private $artist;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Record
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getArtist(): ?Artist
+    {
+        return $this->artist;
+    }
+
+    public function setArtist(?Artist $artist): self
+    {
+        $this->artist = $artist;
 
         return $this;
     }

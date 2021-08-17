@@ -4,6 +4,30 @@ info:
   version: 0.1.0
 paths:
   /api/records:
+    get:
+      tags:
+        - Records
+      summary: Find record
+      parameters:
+        - in: query
+          name: name
+          description: name of the record
+          required: false
+          schema:
+            type: string
+            example: abc
+        - in: query
+          name: description
+          description: description of the record
+          required: false
+          schema:
+            type: string
+            example: small description
+      responses:
+        200:
+          $ref: "./openapi.yaml#/components/responses/RecordResponse"
+        500:
+          $ref: "./openapi.yaml#/components/responses/ServerErrorResponse"
     post:
       tags:
         - Records

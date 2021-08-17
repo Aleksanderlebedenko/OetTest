@@ -51,6 +51,16 @@ class RecordsController extends AbstractApiController
     }
 
     /**
+     * @Route("/api/records", name="find record", methods={"GET"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function find(Request $request): JsonResponse
+    {
+        return $this->json($this->getRecordService->find($request));
+    }
+
+    /**
      * @Route("/api/records", name="add record", methods={"POST"})
      * @param Request $request
      * @return JsonResponse

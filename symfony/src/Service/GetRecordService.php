@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\Record;
 use App\Exception\NoDataFoundException;
 use App\Repository\RecordRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class GetRecordService
 {
@@ -31,6 +32,18 @@ class GetRecordService
         }
 
         return $record;
+    }
+
+    /**
+     * @param Request $request
+     * @return Record[]
+     */
+    public function find(Request $request): array
+    {
+        return $this->recordRepository->findByNameAndDescription(
+            $request->get('name'),
+            $request->get('description')
+        );
     }
 
 }

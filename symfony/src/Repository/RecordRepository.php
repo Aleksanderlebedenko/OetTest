@@ -47,4 +47,22 @@ class RecordRepository extends ServiceEntityRepository
         $em->persist($record);
         $em->flush();
     }
+
+    public function findByNameAndDescription(string $name = '', string $description = '')
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT r
+            FROM App\Entity\Record r
+            WHERE r.name like :name
+            AND r.description LIKE :description
+            ORDER BY r.artist ASC, r.name ASC'
+        )
+            ->setParameter('name', "%$name%")
+            ->setParameter('description', "%$description%");
+
+        return $query->getResult();
+
+    }
 }

@@ -15,11 +15,13 @@ class RecordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('name', TextType::class, [
-            'constraints' => [
-                new NotNull(),
-            ]
-        ])->add('description', TextType::class);
+        $builder
+            ->add('name', TextType::class, [
+                'constraints' => [
+                    new NotNull(),
+                ]
+            ])
+            ->add('description', TextType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
