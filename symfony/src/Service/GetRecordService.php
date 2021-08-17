@@ -41,8 +41,8 @@ class GetRecordService
     public function find(Request $request): array
     {
         return $this->recordRepository->findByNameAndDescription(
-            $request->get('name'),
-            $request->get('description')
+            (string)$request->get('name'),
+            (string)$request->get('description')
         );
     }
 
